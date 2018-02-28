@@ -1,16 +1,15 @@
+CXX_FLAG := -fPIC -std=c++11 -fno-rtti
+CLEAN_FILE := flatten.o crypto_util.o util.o split.o libtrob.so
+BUILD_FILE := flatten.o crypto_util.o util.o split.o 
+
 build:
-	clang++ -fPIC -c flatten.cc -std=c++11 -fno-rtti
-	clang++ -fPIC -c crypto_util.cc -std=c++11 -fno-rtti
-	clang++ -fPIC -c util.cc -std=c++11 -fno-rtti
-	clang++ trob.cc flatten.o crypto_util.o util.o -fPIC -shared -o libtrob.so -std=c++11 -fno-rtti
+	clang++ -c flatten.cc $(CXX_FLAG)
+	clang++ -c crypto_util.cc $(CXX_FLAG)
+	clang++ -c util.cc $(CXX_FLAG)
+	clang++ -c split.cc $(CXX_FLAG)
+	clang++ trob.cc flatten.o crypto_util.o util.o split.o -shared -o libtrob.so $(CXX_FLAG)
 
 clean:
-	rm flatten.o
-	rm crypto_util.o
-	rm util.o
-	rm libtrob.so
+	rm $(CLEAN_FILE)
 finish: build
-	rm flatten.o
-	rm crypto_util.o
-	rm util.o
-	mv libtrob.so test/
+	rm $(BUILD_FILE)
